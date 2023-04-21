@@ -5,8 +5,8 @@ resource "aws_cloudwatch_log_group" "name" {
 
 
 resource "aws_lambda_function" "rLambdaFunction" {
-  s3_bucket     = "dariusz-s3-lambda-deploy"
-  s3_key        = "lambda_function.zip"
+  s3_bucket     = var.lambdas3_bucket
+  s3_key        = var.lambdas3_key
   function_name = "my_private_lambda"
   handler       = "lambda_function.lambda_handler"
   runtime       = "python3.9"
