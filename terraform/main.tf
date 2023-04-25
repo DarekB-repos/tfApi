@@ -4,9 +4,9 @@ provider "aws" {
 
 terraform {
   backend "s3" {
-    bucket = "dariusz-s3-tf-state-files"
+    bucket = "terraform-state-ram"
     key    = "vpc_plus_lambda.tf"
-    region = "eu-west-2"
+    region = "us-east-1"
 
   }
   required_providers {

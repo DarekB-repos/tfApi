@@ -1,5 +1,5 @@
 variable "aws_region" {
-  default = "eu-west-2"
+  default = "us-east-1"
 }
 
 # variable "ssm_param_name" {
@@ -8,7 +8,7 @@ variable "aws_region" {
 # }
 
 variable "lambdas3_bucket" {
-  default = "dariusz-s3-lambda-deploy"
+  default = "terraform-state-ram"
 }
 
 

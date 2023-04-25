@@ -20,6 +20,10 @@ resource "aws_iam_role_policy_attachment" "rLambdaBasicRoleExecution" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
+resource "aws_iam_role_policy_attachment" "rLambdaS3ReadOnly" {
+  role       = aws_iam_role.rLambdaRole.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"
+}
 
 data "aws_iam_policy_document" "dApiGWAssumeRole" {
   statement {

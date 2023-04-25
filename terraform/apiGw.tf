@@ -7,10 +7,16 @@ resource "aws_api_gateway_rest_api" "apigw" {
   }
 }
 
+resource "aws_api_gateway_resource" "lambda_api" {
+  parent_id   = aws_api_gateway_rest_api.apigw.root_resource_id
+  path_part   = "get_response"
+  rest_api_id = aws_api_gateway_rest_api.apigw.id
+}
+
 resource "aws_api_gateway_method" "api-post" {
   rest_api_id   = aws_api_gateway_rest_api.apigw.id
   resource_id   = aws_api_gateway_rest_api.apigw.root_resource_id
-  http_method   = "POST"
+  http_method   = "GET"
   authorization = "NONE"
   depends_on = [
     aws_api_gateway_rest_api.apigw,
@@ -39,18 +45,6 @@ resource "aws_api_gateway_method_response" "rApiResponse200" {
   resource_id = aws_api_gateway_rest_api.apigw.root_resource_id
   http_method = aws_api_gateway_method.api-post.http_method
   status_code = "200"
-}
-
-resource "aws_api_gateway_integration_response" "rApiInteResponse" {
-  rest_api_id = aws_api_gateway_rest_api.apigw.id
-  resource_id = aws_api_gateway_rest_api.apigw.root_resource_id
-  http_method = aws_api_gateway_method.api-post.http_method
-  status_code = aws_api_gateway_method_response.rApiResponse200.status_code
-  depends_on = [
-    aws_api_gateway_rest_api.apigw,
-    aws_api_gateway_method_response.rApiResponse200,
-    aws_api_gateway_method.api-post
-  ]
 }
 
 resource "aws_api_gateway_deployment" "apigwdep" {
