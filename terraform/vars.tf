@@ -1,17 +1,15 @@
 variable "aws_region" {
-  default = "us-east-1"
+  type = string
 }
-
-# variable "ssm_param_name" {
-#   type    = string
-#   default = "/test/param/path"
-# }
 
 variable "lambdas3_bucket" {
-  default = "terraform-state-ram"
+  type = string
 }
 
-
 variable "lambdas3_key" {
-  default = "lambda_function.zip"
+  type = string
+}
+
+variable "s3_bucket_name" {
+  type = string
 }
