@@ -27,7 +27,7 @@ stages:
               backendAWSKey: ${{ parameters.terraformS3StateFile }}
 
           - ${{ if ne(length(parameters.extraTerraformParams), 0) }}:
-            - script: echo '${{ convertToJson(parameters.extraTerraformParams) }}' > $(System.DefaultWorkingDirectory)/terraform/parameters.auto.tfvars.json
+            - script: echo '${{ convertToJson(parameters.extraTerraformParams) }}' > $(System.DefaultWorkingDirectory)/terraform/terraform.tfvars.json
               displayName: "Create Json tfvars"
 
           - task: TerraformTaskV1@0
