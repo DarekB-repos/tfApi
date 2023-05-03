@@ -6,7 +6,7 @@ pool:
 
 extends:
   template: api_automation.yml
-  paramters:
+  parameters:
     awsRegion: eu-west-2
     terraformS3StateBucket: dariusz-s3-tf-state-files
     terraformS3StateFile: ApiS3State.tf
