@@ -1,0 +1,18 @@
+trigger:
+  - pipes
+
+pool:
+  vmImage: "ubuntu-latest"
+
+extends:
+  template: api_automation.yml
+  paramters:
+    awsRegion: eu-west-2
+    terraformS3StateBucket: dariusz-s3-tf-state-files
+    terraformS3StateFile: ApiS3State.tf
+    terraformAwsCredentials: AWS_Azure_Admin_tf
+    extraTerraformParams:
+      aws_region:       "eu-west-2"
+      lambdas3_bucket:  "dariusz-s3-lambda-deploy"
+      lambdas3_key:     "lambda_function.zip"
+      s3_bucket_name" : "tf-assignment-bucket-daro-s3-bck"

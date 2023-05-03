@@ -1,0 +1,48 @@
+parameters:
+  - name: awsRegion
+    type: string
+  - name: terraformS3StateBucket
+    type: string
+  - name: terraformS3StateFile
+    type: string
+  - name: terraformAwsCredentials
+    type: string
+  - name: extraTerraformParams
+    type: object
+    default: []
+
+stages:
+  - stage: TerraformActions
+    jobs:
+      - job : TF
+        steps:
+          - task: TerraformTaskV1@0
+            dsiplayName: Terraform Init
+            inputs:
+              provider: "aws"
+              command: "init"
+              workingDirectory: $(System.DefaultWorkingDirectory)/terraform
+              backendServiceAWS: ${{ parameters.terraformAwsCredentials }}
+              backendAWSBucketName: ${{ parameters.terraformS3StateBucket }}
+              backendAWSKey: ${{ parameters.terraformS3StateFile }}
+
+          - ${{ if ne(length(parameters.extraTerraformParams), 0) }}:
+            - script: echo '${{ convertToJson(parameters.extraTerraformParams) }}' > ${{ parameters.terraformWorkingDirectory }}/parameters.auto.tfvars.json
+              displayName: "Create Json tfvars"
+
+          - task: TerraformTaskV1@0
+            displayName: Terraform Plan
+            inputs:
+              provider: 'aws'
+              command: 'plan'
+              workingDirectory: ${{ parameters.terraformWorkingDirectory }}
+              environmentServiceNameAWS: ${{ parameters.terraformAwsCredentials }}
+
+          - task: TerraformTaskV1@0
+            displayName: Terraform Apply
+            inputs:
+              provider: 'aws'
+              command: 'apply'
+              workingDirectory: ${{ parameters.terraformWorkingDirectory }}
+              commandOptions: ${{ parameters.terraformCommandOptions }}
+              environmentServiceNameAWS: ${{ parameters.terraformAwsCredentials }}

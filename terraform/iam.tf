@@ -47,14 +47,16 @@ resource "aws_iam_role_policy_attachment" "dApiGWAssumeRoleForLambda" {
 
 data "aws_iam_policy_document" "dSSMAcess" {
   statement {
-    sid = "GetSSParam"
+    sid = "ReadS3"
 
     actions = [
-      "ssm:GetParameter"
+      "s3:GetObject",
+      "s3:ListBucket"
     ]
 
     resources = [
-      "arn:aws:ssm:${var.aws_region}:${data.aws_caller_identity.current.account_id}:parameter${aws_ssm_parameter.rSsmParameter.name}"
+      aws_s3_bucket.assignmentBucket.arn,
+      "${aws_s3_bucket.assignmentBucket.arn}/*"
     ]
   }
 
