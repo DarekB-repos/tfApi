@@ -27,7 +27,7 @@ stages:
               backendAWSKey: ${{ parameters.terraformS3StateFile }}
 
           - ${{ if ne(length(parameters.extraTerraformParams), 0) }}:
-            - script: echo '${{ convertToJson(parameters.extraTerraformParams) }}' > ${{ parameters.terraformWorkingDirectory }}/parameters.auto.tfvars.json
+            - script: echo '${{ convertToJson(parameters.extraTerraformParams) }}' > $(System.DefaultWorkingDirectory)/terraform/parameters.auto.tfvars.json
               displayName: "Create Json tfvars"
 
           - task: TerraformTaskV1@0
@@ -35,7 +35,7 @@ stages:
             inputs:
               provider: 'aws'
               command: 'plan'
-              workingDirectory: ${{ parameters.terraformWorkingDirectory }}
+              workingDirectory: $(System.DefaultWorkingDirectory)/terraform
               environmentServiceNameAWS: ${{ parameters.terraformAwsCredentials }}
 
           - task: TerraformTaskV1@0
@@ -43,6 +43,5 @@ stages:
             inputs:
               provider: 'aws'
               command: 'apply'
-              workingDirectory: ${{ parameters.terraformWorkingDirectory }}
-              commandOptions: ${{ parameters.terraformCommandOptions }}
+              workingDirectory: $(System.DefaultWorkingDirectory)/terraform
               environmentServiceNameAWS: ${{ parameters.terraformAwsCredentials }}
