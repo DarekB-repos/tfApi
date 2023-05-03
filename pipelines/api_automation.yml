@@ -17,7 +17,7 @@ stages:
       - job : TF
         steps:
           - task: TerraformTaskV1@0
-            dsiplayName: Terraform Init
+            displayName: Terraform Init
             inputs:
               provider: "aws"
               command: "init"
