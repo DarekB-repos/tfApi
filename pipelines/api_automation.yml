@@ -53,6 +53,7 @@ stages:
               command: 'custom'
               customCommand: 'state'
               commandOptions: 'rm aws_s3_bucket.assignmentBucket'
+              workingDirectory: $(System.DefaultWorkingDirectory)/terraform
               environmentServiceNameAWS: ${{ parameters.terraformAwsCredentials }}
 
           - task: TerraformTaskV1@0
