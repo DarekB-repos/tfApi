@@ -12,7 +12,7 @@ parameters:
     default: []
   - name: excludeFlag
     type: string
-    default: "del"
+    default: "nodel"
 
 stages:
   - stage: TerraformActions
@@ -61,6 +61,7 @@ stages:
               environmentServiceNameAWS: ${{ parameters.terraformAwsCredentials }}
 
           - task: TerraformTaskV1@0
+            displayName: Terraform destroy
             inputs:
               provider: 'aws'
               command: 'destroy'
