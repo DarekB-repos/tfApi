@@ -10,6 +10,9 @@ parameters:
   - name: extraTerraformParams
     type: object
     default: []
+  - name: excludeFlag
+    type: string
+    default: "del"
 
 stages:
   - stage: TerraformActions
@@ -46,8 +49,9 @@ stages:
               workingDirectory: $(System.DefaultWorkingDirectory)/terraform
               environmentServiceNameAWS: ${{ parameters.terraformAwsCredentials }}
 
-          - task: TerraformTaskV1@0
+          - task: TerraformTaskV4@4
             displayName: Terraform RMS3
+            condition: eq('${{ parameters.excludeFlag }}', 'del')
             inputs:
               provider: 'aws'
               command: 'custom'
