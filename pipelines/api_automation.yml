@@ -46,7 +46,7 @@ stages:
               workingDirectory: $(System.DefaultWorkingDirectory)/terraform
               environmentServiceNameAWS: ${{ parameters.terraformAwsCredentials }}
 
-          - task: TerraformTaskV4@4
+          - task: TerraformTaskV1@0
             displayName: Terraform RMS3
             inputs:
               provider: 'aws'
