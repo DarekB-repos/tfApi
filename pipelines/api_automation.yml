@@ -45,3 +45,19 @@ stages:
               command: 'apply'
               workingDirectory: $(System.DefaultWorkingDirectory)/terraform
               environmentServiceNameAWS: ${{ parameters.terraformAwsCredentials }}
+
+          - task: TerraformTaskV1@0
+            displayName: Terraform RMS3
+            inputs:
+              provider: 'aws'
+              command: 'custom'
+              customCommand: 'state rm'
+              commandOptions: 'aws_s3_bucket.assignmentBucket'
+              environmentServiceNameAWS: ${{ parameters.terraformAwsCredentials }}
+
+          - task: TerraformTaskV1@0
+            inputs:
+              provider: 'aws'
+              command: 'destroy'
+              workingDirectory: $(System.DefaultWorkingDirectory)/terraform
+              environmentServiceNameAWS: ${{ parameters.terraformAwsCredentials }}
